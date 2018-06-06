@@ -1,41 +1,39 @@
 # dt
 
-`dt` is a simple and powerful command that calculate date or convert date format.
+dt は日付の計算や書式を変換するプログラムです.
 
-## Description
+## 説明
 
-`dt` calculates the date in units of year, month or etc.. , and converts the format.
+dt は, 日付を年や月などの単位で計算したり, 書式を変換します.
 
-The date can be added or subtracted for each unit of year, month, day, hour, minute, and second.
-For example, you can know following code.
-For example, you can check date and time that 1 year 3 months 20 seconds before the system time with the following command.
+日付は, 年月日時分秒のいずれかの単位ごとに加算したり減算できます. たとえば, 以下のコマンドでシステム時刻の1年3ヶ月20秒前を調べられます.
 
 ```
 $ dt now +1Y +3M +20s
 ```
 
-You can also specify base date and time.
+計算元の日付を指定することもできます. 
 
 ```
 $ dt "2018/05/12 17:30:00" +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
-The date and time format are automatically determined from the input. For the available formats, see `DATE FORMATS` in `--help` option. Also, if the base date and time consists only of numbers, it is automatically determined as unix seconds.
+日付のフォーマットは, 入力から自動で判断されます. 利用できるフォーマットについては --help の DATE FORMATS を参照してください.  また, 計算元の日付が数字のみで構成される場合は, 自動的に unix 秒と判断されます.
 
 ```
 $ dt -o def 1526113800 +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
-With the `--input-format` or `-i` option, you can use unix milliseconds.
+--input-format, -i オプションにより, unix ミリ秒も指定できます.
 
 ```
 $ dt -i unixm -o def 1526113800000 +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
-By default the output format is the same as the input format. You can specify the output format, if you use `--output-format` or `-o` option.
+デフォルトでは出力フォーマットは入力フォーマットと同じですが, --output-format, -o オプションで出力フォーマットを指定できます.
 
 ```
 $ dt 1526113800 +1Y +3M +20s
@@ -45,7 +43,7 @@ $ dt -o "02 Jan 06 15:04 MST" 1526113800 +1Y +3M +20s
 12 Aug 19 17:00 JST
 ```
 
-## Usage
+## 使い方
 
 ```sh
 $ date "+%Y/%m/%d %H:%M:%S"
@@ -55,14 +53,14 @@ $ dt now +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
-### Specify base date and time
+### 計算元の日付を指定
 
 ```
 $ dt "2018/05/12 17:30:00" +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
-### Date and Time addition
+### 日付の加算
 
 ```
 $ dt "2018/05/12 17:30:00" +1Y
@@ -88,16 +86,16 @@ $ dt "2018/05/12 17:30:00" 1Y 3M 20s
 2019/08/12 17:30:20
 ```
 
-### Date and Time subtraction
+### 日付の減算
 
 ```
 $ dt "2018/05/12 17:30:00" -1Y -3M -20s
 2017/02/12 17:29:40
 ```
 
-### input format
+### 入力フォーマット
 
-#### default format
+#### dt 標準
 
 ```
 $ dt "2018/05/12 17:30:00" +1Y +3M +20s
@@ -111,14 +109,14 @@ $ dt -o def "12 May 18 17:30 MST" +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
-#### unix seconds
+#### unix 秒
 
 ```
 $ dt -o def 1526113800 +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
-#### automatically determined format
+#### 自動判断されるフォーマット
 
 - 2006/01/02 15:04:05
 - 2006-01-02 15:04:05
@@ -136,27 +134,27 @@ $ dt -o def 1526113800 +1Y +3M +20s
 - Mon, 02 Jan 2006 15:04:05 -0700
 - 2006-01-02T15:04:05Z07:00
 
-Please see [https://golang.org/src/time/format.go](https://golang.org/src/time/format.go)
+詳しくは [https://golang.org/src/time/format.go](https://golang.org/src/time/format.go) を参照してください.
 
-### Specify input format
+### 入力フォーマットを指定
 
-#### unix seconds
+#### unix ミリ秒
 
 ```
 $ dt -i unixm -o def 1526113800000 +1Y +3M +20s
 2019/08/12 17:30:20
 ``` 
 
-#### custom format
+#### カスタムフォーマット
 
 ```
 $ dt -i "02-Jan-06 15:04:05" -o def "12-May-18 17:30:00" +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
-### output format
+### 出力フォーマット
 
-The default output format is the same as the input format.
+デフォルトでは入力フォーマットと同じ
 
 ```
 $ dt "2018-05-12 17:30:00" +1Y +3M +20s
@@ -166,7 +164,7 @@ $ dt 1526113800 +1Y +3M +20s
 15300622820
 ```
 
-### Specify output format
+### 出力フォーマットを指定
 
 ```
 $ dt -o def 1526113800 +1Y +3M +20s
@@ -176,7 +174,7 @@ $ dt -o "02-Jan-06 15:04:05" 1526113800 +1Y +3M +20s
 12-Aug-19 17:30:20
 ```
 
-### help option
+### ヘルプ
 
 ```
 $ dt --help
@@ -184,41 +182,41 @@ $ dt --help
 
 ```
 
-## Installation
+## インストール
 
-### Developer
+### 開発者向け
 
 ```
 $ go get -u github.com/ebc-2in2crc/dt/...
 ```
 
-### User
+### 一般ユーザー向け
 
-Download from the following url.
+次の URL からダウンロードしてください.
 
 - [https://github.com/ebc-2in2crc/dt/releases](https://github.com/ebc-2in2crc/dt/releases)
 
-Or, you can use Homebrew (Only macOS).
+あるいは, Homebrew を使うこともできます (macOS のみ)
 
 ```sh
 $ brew tap ebc-2in2crc/dt
 $ brew install dt
 ```
 
-## Contribution
+## コントリビューション
 
-1. Fork this repository
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Rebase your local changes against the master branch
-5. Run test suite with the go test ./... command and confirm that it passes
-6. Run gofmt -s
-7. Create new Pull Request
+1. このリポジトリをフォークします
+2. feature ブランチを作成します (git checkout -b my-new-feature)
+3. 変更をコミットします (git commit -am 'Add some feature')
+4. 変更を master ブランチにリベースします
+5. go test コマンドでテストを実行し, パスすることを確認します
+6. `gofmt -s` コマンドでコードをフォーマットします
+7. 新しいプルリクエストを作成します
 
-## Licence
+## ライセンス
 
 [MIT](https://github.com/ebc-2in2crc/dt/blob/master/LICENSE)
 
-## Author
+## 作者
 
 [ebc-2in2crc](https://github.com/ebc-2in2crc)
