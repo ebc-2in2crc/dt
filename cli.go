@@ -12,6 +12,8 @@ import (
 
 	"io/ioutil"
 
+	"sort"
+
 	"github.com/codegangsta/cli"
 )
 
@@ -30,22 +32,23 @@ const defaultFormat = "2006/01/02 15:04:05"
 var clo *CLO
 var cliContext *cli.Context
 
-var formats = []string{
-	defaultFormat,
-	"2006-01-02 15:04:05",
-	"2006/01/02 15:04",
-	"2006-01-02 15:04",
-	"2006/01/02",
-	"2006-01-02",
-	time.ANSIC,
-	time.UnixDate,
-	time.RubyDate,
-	time.RFC822,
-	time.RFC822Z,
-	time.RFC850,
-	time.RFC1123,
-	time.RFC1123Z,
-	time.RFC3339,
+var formats = map[string]string{
+	"def":      defaultFormat,
+	"YMDhms/":  defaultFormat,
+	"YMDhms-":  "2006-01-02 15:04:05",
+	"YMDhm/":   "2006/01/02 15:04",
+	"YMDhm-":   "2006-01-02 15:04",
+	"YMD/":     "2006/01/02",
+	"YMD-":     "2006-01-02",
+	"ANSIC":    time.ANSIC,
+	"UnixDate": time.UnixDate,
+	"RubyDate": time.RubyDate,
+	"RFC822":   time.RFC822,
+	"RFC822Z":  time.RFC822Z,
+	"RFC850":   time.RFC850,
+	"RFC1123":  time.RFC1123,
+	"RFC1123Z": time.RFC1123Z,
+	"RFC3339":  time.RFC3339,
 }
 
 func (c *CLO) Run(args []string) int {
@@ -169,9 +172,16 @@ func helpPrinter(printer func(w io.Writer, templ string, d interface{})) func(w 
 }
 
 func newHelpData(app *cli.App) interface{} {
+	slice := make([]string, len(formats))
+	i := 0
+	for k, v := range formats {
+		slice[i] = k + ": " + v
+		i++
+	}
+	sort.Strings(slice)
 	return &customParameter{
 		App:         app,
-		DateFormats: formats,
+		DateFormats: slice,
 	}
 }
 
@@ -377,6 +387,10 @@ func output(dt *Dt, c *cli.Context) {
 	case "def":
 		fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: defaultFormat})
 	default:
-		fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: c.String("o")})
+		if v, ok := formats[c.String("o")]; ok {
+			fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: v})
+		} else {
+			fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: c.String("o")})
+		}
 	}
 }

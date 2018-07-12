@@ -121,6 +121,7 @@ func TestRun_add(t *testing.T) {
 		{args: []string{AppName, "-o", "def", "1526113800"}, expect: "2018/05/12 17:30:00"},
 		{args: []string{AppName, "--output-format", "unix", "now"}, expect: "1526113800"},
 		{args: []string{AppName, "--output-format", "2006-01-02 15:04:05", "1526113800"}, expect: "2018-05-12 17:30:00"},
+		{args: []string{AppName, "--output-format", "ANSIC", "1526113800"}, expect: "Sat May 12 17:30:00 2018"},
 		{args: []string{AppName, "--input-format", "unixm", "--output-format", "unixm", "1526113800000"}, expect: "1526113800000"},
 
 		// 引数がないときはシステム日付を出力
