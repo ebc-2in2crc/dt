@@ -246,21 +246,30 @@ func loadConf() {
 	scanner := bufio.NewScanner(f)
 	m := map[string]string{}
 	for scanner.Scan() {
-		cols := strings.Split(scanner.Text(), "=")
-		if len(cols) != 2 {
-			continue
-		}
+		k, v := SplitFormat(scanner.Text())
+		if k == "" || v == "" {
 
-		if cols[0] == "" || cols[1] == "" {
-			continue
 		}
-		m[cols[0]] = cols[1]
+		m[k] = v
 	}
 
 	for k, v := range m {
 		log.Printf("custom format: %s => %s\n", k, v)
 		formats[k] = v
 	}
+}
+
+func SplitFormat(s string) (string, string) {
+	cols := strings.Split(s, "=")
+	if len(cols) != 2 {
+		return "", ""
+	}
+
+	if cols[0] == "" || cols[1] == "" {
+		return "", ""
+	}
+
+	return cols[0], cols[1]
 }
 
 func processArg(i int, arg string, dt *Dt) (*Dt, error) {
