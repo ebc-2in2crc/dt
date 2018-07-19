@@ -258,6 +258,7 @@ func loadConf() {
 	}
 
 	for k, v := range m {
+		log.Printf("custom format: %s => %s\n", k, v)
 		formats[k] = v
 	}
 }
