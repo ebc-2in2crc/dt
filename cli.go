@@ -18,8 +18,6 @@ import (
 
 	"bufio"
 
-	"strings"
-
 	"github.com/codegangsta/cli"
 	"github.com/mitchellh/go-homedir"
 )
@@ -260,7 +258,7 @@ func loadConf() {
 }
 
 func SplitFormat(s string) (string, string) {
-	cols := strings.Split(s, "=")
+	cols := regexp.MustCompile(`\s*=\s*`).Split(s, 2)
 	if len(cols) != 2 {
 		return "", ""
 	}

@@ -21,6 +21,8 @@ func TestSplitFormat(t *testing.T) {
 		value string
 	}{
 		{input: "a=b", key: "a", value: "b"},
+		{input: "a = b", key: "a", value: "b"},
+		{input: "a = b = c", key: "a", value: "b = c"},
 	}
 
 	for _, p := range params {
