@@ -231,7 +231,7 @@ func action() func(c *cli.Context) error {
 }
 
 func loadConfig() {
-	path, err := homedir.Expand("~/.dt")
+	path, err := homedir.Expand("~/.config/dt/.dt")
 	if err != nil {
 		return
 	}
