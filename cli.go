@@ -214,7 +214,7 @@ func action() func(c *cli.Context) error {
 
 		log.Printf("args: %s", c.Args())
 
-		loadConf()
+		loadConfig()
 
 		var dt = &Dt{time: now(), format: defaultFormat}
 		for i, arg := range c.Args() {
@@ -230,7 +230,7 @@ func action() func(c *cli.Context) error {
 	}
 }
 
-func loadConf() {
+func loadConfig() {
 	path, err := homedir.Expand("~/.dt")
 	if err != nil {
 		return
