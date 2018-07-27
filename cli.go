@@ -36,6 +36,7 @@ const defaultFormat = "2006/01/02 15:04:05"
 
 var clo *CLO
 var cliContext *cli.Context
+var splitRegexp = regexp.MustCompile(`\s*=\s*`)
 
 var formats = map[string]string{
 	"def":      defaultFormat,
@@ -258,7 +259,7 @@ func loadConf() {
 }
 
 func SplitFormat(s string) (string, string) {
-	cols := regexp.MustCompile(`\s*=\s*`).Split(s, 2)
+	cols := splitRegexp.Split(s, 2)
 	if len(cols) != 2 {
 		return "", ""
 	}
