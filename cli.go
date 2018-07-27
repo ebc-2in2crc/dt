@@ -201,6 +201,7 @@ func action() func(c *cli.Context) error {
 		cliContext = c
 
 		if c.Bool("h") == true {
+			loadConfig()
 			cli.ShowAppHelp(c)
 			return nil
 		}
