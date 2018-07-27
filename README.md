@@ -1,13 +1,12 @@
 # dt
 
-`dt` is a simple and powerful command that calculate date or convert date format.
+dt is a simple and powerful command that calculate date or convert date format.
 
 ## Description
 
-`dt` calculates the date in units of year, month or etc.. , and converts the format.
+dt calculates the date in units of year, month or etc.. , and converts the format.
 
 The date can be added or subtracted for each unit of year, month, day, hour, minute, and second.
-For example, you can know following code.
 For example, you can check date and time that 1 year 3 months 20 seconds before the system time with the following command.
 
 ```
@@ -120,6 +119,9 @@ $ dt -o def 1526113800 +1Y +3M +20s
 
 #### automatically determined format
 
+Following formats, and configuration.
+For configuration, see `Configuration` section.
+
 - 2006/01/02 15:04:05
 - 2006-01-02 15:04:05
 - 2006/01/02 15:04
@@ -138,6 +140,17 @@ $ dt -o def 1526113800 +1Y +3M +20s
 
 Please see [https://golang.org/src/time/format.go](https://golang.org/src/time/format.go)
 
+### Configuration
+
+dt reads the configuration file (`~/.config/dt/.dt`) at startup.
+
+#### Example
+
+```
+myformat = 02-Jan-06 15:04:05
+yearonly = 2006
+```
+
 ### Specify input format
 
 #### unix seconds
@@ -147,10 +160,24 @@ $ dt -i unixm -o def 1526113800000 +1Y +3M +20s
 2019/08/12 17:30:20
 ``` 
 
-#### custom format
+#### Specify custom format directly
 
 ```
 $ dt -i "02-Jan-06 15:04:05" -o def "12-May-18 17:30:00" +1Y +3M +20s
+2019/08/12 17:30:20
+```
+
+#### Specify custom format that defined in configuration
+
+```
+$ cat ~/.config/dt/.dt
+myformat = 02-Jan-06 15:04:05
+
+$ dt -i myformat -o def "12-May-18 17:30:00" +1Y +3M +20s
+2019/08/12 17:30:20
+
+# You can omit the custom format that defined in the configuration file
+$ dt -o def "12-May-18 17:30:00" +1Y +3M +20s
 2019/08/12 17:30:20
 ```
 
@@ -166,7 +193,7 @@ $ dt 1526113800 +1Y +3M +20s
 15300622820
 ```
 
-### Specify output format
+### Specify output format directly
 
 ```
 $ dt -o def 1526113800 +1Y +3M +20s
@@ -174,6 +201,20 @@ $ dt -o def 1526113800 +1Y +3M +20s
 
 $ dt -o "02-Jan-06 15:04:05" 1526113800 +1Y +3M +20s
 12-Aug-19 17:30:20
+```
+
+### Specify output format that defined in configuration file
+
+```
+$ cat ~/.config/dt/.dt
+myformat = 02-Jan-06 15:04:05
+
+$ dt -i myformat -o def "12-May-18 17:30:00" +1Y +3M +20s
+2019/08/12 17:30:20
+
+# You can omit the custom format that defined in the configuration file
+$ dt -o def "12-May-18 17:30:00" +1Y +3M +20s
+2019/08/12 17:30:20
 ```
 
 ### help option
