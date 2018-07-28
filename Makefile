@@ -24,6 +24,7 @@ deps:
 	$(GOGET) github.com/codegangsta/cli
 	$(GOGET) github.com/mitchellh/go-homedir
 	$(GOGET) github.com/Songmu/make2help/cmd/make2help
+	$(GOGET) github.com/tcnksm/ghr
 
 .PHONY: build
 ## Build binaries
@@ -44,6 +45,11 @@ package: cross-build
 	pushd $(PKGDIR) > /dev/null && \
 		for P in `ls | xargs basename`; do zip -r $(CURRENT)/$(DISTDIR)/$$P.zip $$P; done && \
 		popd > /dev/null
+
+.PHONY: release
+## Release package to Github
+release: package
+	ghr $(VERSION) $(DISTDIR)
 
 .PHONY: test
 ## Run tests
