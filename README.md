@@ -209,12 +209,8 @@ $ dt -o "02-Jan-06 15:04:05" 1526113800 +1Y +3M +20s
 $ cat ~/.config/dt/.dt
 myformat = 02-Jan-06 15:04:05
 
-$ dt -i myformat -o def "12-May-18 17:30:00" +1Y +3M +20s
-2019/08/12 17:30:20
-
-# You can omit the custom format that defined in the configuration file
-$ dt -o def "12-May-18 17:30:00" +1Y +3M +20s
-2019/08/12 17:30:20
+$ dt -o myformat 1526113800 +1Y +3M +20s
+12-Aug-19 17:30:20
 ```
 
 ### help option
