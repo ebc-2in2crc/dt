@@ -7,6 +7,8 @@ NAME := dt
 BUILDDIR=./build
 BINDIR=$(BUILDDIR)/bin
 
+VERSION := $(shell git describe --tags --abbrev=0)
+LDFLAGS := -X 'main.version=$(VERSION)'
 
 .PHONY: deps
 ## Install dependencies
@@ -20,7 +22,7 @@ deps:
 .PHONY: build
 ## Build binaries
 build: deps
-	go build -o $(BINDIR)/$(NAME)
+	go build -ldflags "$(LDFLAGS)" -o $(BINDIR)/$(NAME)
 
 .PHONY: test
 ## Run tests

@@ -63,7 +63,7 @@ func (c *CLO) Run(args []string) int {
 	app := cli.NewApp()
 	app.Name = AppName
 	app.Usage = "日付の計算や書式の変換"
-	app.Version = Version
+	app.Version = version
 	app.HideHelp = true
 	app.HideVersion = true
 	app.Description = description()

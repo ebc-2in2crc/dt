@@ -8,10 +8,11 @@ import (
 
 const (
 	AppName          = "dt"
-	Version          = "0.10.0"
 	unixSeconds      = "unix"
 	unixMilliSeconds = "unixm"
 )
+
+var version = "0.10.0"
 
 type Dt struct {
 	time   time.Time

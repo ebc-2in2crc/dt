@@ -63,7 +63,7 @@ func TestRun_versionFlag(t *testing.T) {
 		}
 
 		actual := outStream.String()
-		expect := fmt.Sprintf(AppName+" version %s", Version)
+		expect := fmt.Sprintf(AppName+" version %s", version)
 		if strings.Contains(actual, expect) == false {
 			t.Errorf("Run(%s): Output = %q; want %q", p.argstr, actual, expect)
 		}
