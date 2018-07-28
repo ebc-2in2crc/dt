@@ -8,7 +8,7 @@ import (
 
 const (
 	AppName          = "dt"
-	Version          = "0.9.0"
+	Version          = "0.10.0"
 	unixSeconds      = "unix"
 	unixMilliSeconds = "unixm"
 )
@@ -71,7 +71,7 @@ func (dt *Dt) String() string {
 	case unixSeconds:
 		return fmt.Sprintf("%d", t.Unix())
 	case unixMilliSeconds:
-		return fmt.Sprintf("%d", t.UnixNano() / int64(time.Millisecond))
+		return fmt.Sprintf("%d", t.UnixNano()/int64(time.Millisecond))
 	default:
 		return t.Format(f)
 	}
