@@ -7,7 +7,7 @@ import (
 
 func TestDt_Initialized(t *testing.T) {
 	expect := time.Now()
-	dt := &Dt{ time: expect, }
+	dt := &Dt{time: expect}
 
 	actual := dt.Get()
 	if actual != expect {
@@ -17,7 +17,7 @@ func TestDt_Initialized(t *testing.T) {
 
 func TestDt_AddYear(t *testing.T) {
 	now := time.Now()
-	dt := &Dt{ time: now, }
+	dt := &Dt{time: now}
 
 	actual := dt.AddYear(1).Get()
 	expect := now.AddDate(1, 0, 0)
@@ -28,7 +28,7 @@ func TestDt_AddYear(t *testing.T) {
 
 func TestDt_AddMonth(t *testing.T) {
 	now := time.Now()
-	dt := &Dt{ time: now, }
+	dt := &Dt{time: now}
 
 	actual := dt.AddMonth(1).Get()
 	expect := now.AddDate(0, 1, 0)
@@ -39,7 +39,7 @@ func TestDt_AddMonth(t *testing.T) {
 
 func TestDt_AddDay(t *testing.T) {
 	now := time.Now()
-	dt := &Dt{ time: now, }
+	dt := &Dt{time: now}
 
 	actual := dt.AddDay(1).Get()
 	expect := now.AddDate(0, 0, 1)
@@ -50,7 +50,7 @@ func TestDt_AddDay(t *testing.T) {
 
 func TestDt_AddHour(t *testing.T) {
 	now := time.Now()
-	dt := &Dt{ time: now, }
+	dt := &Dt{time: now}
 
 	actual := dt.AddHour(1).Get()
 	expect := now.Add(1 * time.Hour)
@@ -61,7 +61,7 @@ func TestDt_AddHour(t *testing.T) {
 
 func TestDt_AddMinute(t *testing.T) {
 	now := time.Now()
-	dt := &Dt{ time: now, }
+	dt := &Dt{time: now}
 
 	actual := dt.AddMinute(1).Get()
 	expect := now.Add(1 * time.Minute)
@@ -72,7 +72,7 @@ func TestDt_AddMinute(t *testing.T) {
 
 func TestDt_AddSecond(t *testing.T) {
 	now := time.Now()
-	dt := &Dt{ time: now, }
+	dt := &Dt{time: now}
 
 	actual := dt.AddSecond(1).Get()
 	expect := now.Add(1 * time.Second)
