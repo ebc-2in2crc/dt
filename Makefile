@@ -4,9 +4,11 @@ GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 NAME := dt
+CURRENT := $(shell pwd)
 BUILDDIR=./build
 BINDIR=$(BUILDDIR)/bin
 PKGDIR=$(BUILDDIR)/pkg
+DISTDIR=$(BUILDDIR)/dist
 
 VERSION := $(shell git describe --tags --abbrev=0)
 LDFLAGS := -X 'main.version=$(VERSION)'
@@ -33,6 +35,15 @@ build: deps
 cross-build:
 	rm -rf $(PKGDIR)
 	gox -os=$(GOXOS) -arch=$(GOXARCH) -output=$(GOXOUTPUT)
+
+.PHONY: package
+## Make package
+package: cross-build
+	rm -rf $(DISTDIR)
+	mkdir $(DISTDIR)
+	pushd $(PKGDIR) > /dev/null && \
+		for P in `ls | xargs basename`; do zip -r $(CURRENT)/$(DISTDIR)/$$P.zip $$P; done && \
+		popd > /dev/null
 
 .PHONY: test
 ## Run tests
