@@ -291,7 +291,7 @@ func processFirst(arg string) (*Dt, error) {
 			case def:
 				return nil
 			case unixMilliSeconds:
-				match, _ := regexp.MatchString("^\\d+$", arg)
+				match, _ := regexp.MatchString(`^\d+$`, arg)
 				if match == false {
 					return nil
 				}
@@ -314,7 +314,7 @@ func processFirst(arg string) (*Dt, error) {
 		},
 		func(s string) *Dt {
 			// unix 秒として解釈
-			match, _ := regexp.MatchString("^\\d+$", arg)
+			match, _ := regexp.MatchString(`^\d+$`, arg)
 			if match == true {
 				unixSec, _ := strconv.Atoi(arg)
 				return &Dt{time: time.Unix(int64(unixSec), 0), format: unixSeconds}
@@ -345,7 +345,7 @@ func processFirst(arg string) (*Dt, error) {
 }
 
 func processRest(arg string, dt *Dt) (*Dt, error) {
-	match, _ := regexp.MatchString("^[-+]?\\d+[YMDhms]$", arg)
+	match, _ := regexp.MatchString(`^[-+]?\d+[YMDhms]$`, arg)
 	if match == false {
 		text := fmt.Sprintf("'%s' is invalid format.", arg)
 		return dt, errors.New(text)
