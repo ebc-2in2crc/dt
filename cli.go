@@ -14,12 +14,7 @@ import (
 
 	"sort"
 
-	"os"
-
-	"bufio"
-
 	"github.com/codegangsta/cli"
-	"github.com/mitchellh/go-homedir"
 )
 
 const (
@@ -229,47 +224,6 @@ func action() func(c *cli.Context) error {
 		output(dt, c)
 		return nil
 	}
-}
-
-func loadConfig() {
-	path, err := homedir.Expand("~/.config/dt/.dt")
-	if err != nil {
-		return
-	}
-
-	f, err := os.Open(path)
-	if err != nil {
-		return
-	}
-	defer f.Close()
-
-	scanner := bufio.NewScanner(f)
-	m := map[string]string{}
-	for scanner.Scan() {
-		k, v := SplitFormat(scanner.Text())
-		if k == "" || v == "" {
-			continue
-		}
-		m[k] = v
-	}
-
-	for k, v := range m {
-		log.Printf("custom format: %s => %s\n", k, v)
-		formats[k] = v
-	}
-}
-
-func SplitFormat(s string) (string, string) {
-	cols := splitRegexp.Split(s, 2)
-	if len(cols) != 2 {
-		return "", ""
-	}
-
-	if cols[0] == "" || cols[1] == "" {
-		return "", ""
-	}
-
-	return cols[0], cols[1]
 }
 
 func processArg(i int, arg string, dt *Dt) (*Dt, error) {

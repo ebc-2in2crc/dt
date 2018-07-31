@@ -14,25 +14,6 @@ func (n *MyTime) Now() time.Time {
 	return time.Date(2018, 5, 12, 17, 30, 0, 0, time.Local)
 }
 
-func TestSplitFormat(t *testing.T) {
-	params := []struct {
-		input string
-		key   string
-		value string
-	}{
-		{input: "a=b", key: "a", value: "b"},
-		{input: "a = b", key: "a", value: "b"},
-		{input: "a = b = c", key: "a", value: "b = c"},
-	}
-
-	for _, p := range params {
-		actualKey, actualValue := SplitFormat(p.input)
-		if actualKey != p.key || actualValue != p.value {
-			t.Errorf("SplitFormat() = %s => %s, want %s => %s", actualKey, actualValue, p.key, p.value)
-		}
-	}
-}
-
 func TestNow(t *testing.T) {
 	myTime := &MyTime{}
 	nowInterface = myTime
