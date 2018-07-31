@@ -248,7 +248,7 @@ func loadConfig() {
 	for scanner.Scan() {
 		k, v := SplitFormat(scanner.Text())
 		if k == "" || v == "" {
-
+			continue
 		}
 		m[k] = v
 	}
