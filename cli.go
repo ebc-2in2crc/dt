@@ -31,7 +31,6 @@ const defaultFormat = "2006/01/02 15:04:05"
 
 var clo *CLO
 var cliContext *cli.Context
-var splitRegexp = regexp.MustCompile(`\s*=\s*`)
 
 var formats = map[string]string{
 	"def":      defaultFormat,

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"time"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -17,6 +18,7 @@ const (
 )
 
 var version = "0.10.0"
+var splitRegexp = regexp.MustCompile(`\s*=\s*`)
 
 type Dt struct {
 	time   time.Time
