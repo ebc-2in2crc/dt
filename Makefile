@@ -1,5 +1,6 @@
 GOCMD=go
 GOBUILD=$(GOCMD) build
+GOINSTALL=$(GOCMD) install
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
@@ -50,6 +51,11 @@ package: cross-build
 ## Release package to Github
 release: package
 	ghr $(VERSION) $(DISTDIR)
+
+.PHONY: install
+## compile and install
+install:
+	$(GOINSTALL) -ldflags "$(LDFLAGS)"
 
 .PHONY: test
 ## Run tests
