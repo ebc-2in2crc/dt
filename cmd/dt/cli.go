@@ -18,11 +18,16 @@ import (
 )
 
 const (
+	// ExitCodeOK コマンドが成功
 	ExitCodeOK = iota
+
+	// ExitCodeError コマンドが失敗
 	ExitCodeError
+
 	def = "def"
 )
 
+// CLO コマンドのメインの構造体
 type CLO struct {
 	outStream, errStream io.Writer
 }
@@ -51,6 +56,7 @@ var formats = map[string]string{
 	"RFC3339":  time.RFC3339,
 }
 
+// Run CLO のエントリーポイント
 func (c *CLO) Run(args []string) int {
 	clo = c
 
@@ -72,10 +78,10 @@ func (c *CLO) Run(args []string) int {
 	err := app.Run(args)
 	if err == nil {
 		return ExitCodeOK
-	} else {
-		fmt.Fprintf(clo.errStream, "%v\n", err)
-		return ExitCodeError
 	}
+
+	fmt.Fprintf(clo.errStream, "%v\n", err)
+	return ExitCodeError
 }
 
 func description() string {
@@ -230,9 +236,8 @@ func processArg(i int, arg string, dt *Dt) (*Dt, error) {
 
 	if i == 0 {
 		return processFirst(arg)
-	} else {
-		return processRest(arg, dt)
 	}
+	return processRest(arg, dt)
 }
 
 func processFirst(arg string) (*Dt, error) {
@@ -318,7 +323,7 @@ func processRest(arg string, dt *Dt) (*Dt, error) {
 	return current, nil
 }
 
-// テスト用のインタフェース
+// NowInterface テスト用のインタフェース
 type NowInterface interface {
 	Now() time.Time
 }
@@ -329,9 +334,8 @@ func now() time.Time {
 	if nowInterface == nil {
 		t := time.Now()
 		return time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), 0, time.Local)
-	} else {
-		return nowInterface.Now()
 	}
+	return nowInterface.Now()
 }
 
 func year(dt *Dt, s string) (*Dt, error) {

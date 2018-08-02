@@ -12,6 +12,7 @@ import (
 )
 
 const (
+	// AppName コマンドの名前
 	AppName          = "dt"
 	unixSeconds      = "unix"
 	unixMilliSeconds = "unixm"
@@ -20,15 +21,17 @@ const (
 var version = "0.10.0"
 var splitRegexp = regexp.MustCompile(`\s*=\s*`)
 
+// Dt 日付計算とフォーマット機能をもつ
 type Dt struct {
 	time   time.Time
 	format string
 }
 
-func (dt *Dt) Get() time.Time {
+func (dt *Dt) get() time.Time {
 	return dt.time
 }
 
+// AddYear 月を加算. 負値のときは減算.
 func (dt *Dt) AddYear(year int) *Dt {
 	return &Dt{
 		time:   dt.time.AddDate(year, 0, 0),
@@ -36,6 +39,7 @@ func (dt *Dt) AddYear(year int) *Dt {
 	}
 }
 
+// AddMonth 月を加算. 負値のときは減算.
 func (dt *Dt) AddMonth(month int) *Dt {
 	return &Dt{
 		time:   dt.time.AddDate(0, month, 0),
@@ -43,6 +47,7 @@ func (dt *Dt) AddMonth(month int) *Dt {
 	}
 }
 
+// AddDay 日を加算. 負値のときは減算.
 func (dt *Dt) AddDay(day int) *Dt {
 	return &Dt{
 		time:   dt.time.AddDate(0, 0, day),
@@ -50,6 +55,7 @@ func (dt *Dt) AddDay(day int) *Dt {
 	}
 }
 
+// AddHour 時を加算. 負値のときは減算.
 func (dt *Dt) AddHour(hour int) *Dt {
 	return &Dt{
 		time:   dt.time.Add(time.Duration(hour) * time.Hour),
@@ -57,6 +63,7 @@ func (dt *Dt) AddHour(hour int) *Dt {
 	}
 }
 
+// AddMinute 分を加算. 負値のときは減算.
 func (dt *Dt) AddMinute(minute int) *Dt {
 	return &Dt{
 		time:   dt.time.Add(time.Duration(minute) * time.Minute),
@@ -64,6 +71,7 @@ func (dt *Dt) AddMinute(minute int) *Dt {
 	}
 }
 
+// AddSecond 秒を加算. 負値のときは減算.
 func (dt *Dt) AddSecond(second int) *Dt {
 	return &Dt{
 		time:   dt.time.Add(time.Duration(second) * time.Second),
@@ -99,7 +107,7 @@ func loadConfig() {
 	scanner := bufio.NewScanner(f)
 	m := map[string]string{}
 	for scanner.Scan() {
-		k, v := SplitFormat(scanner.Text())
+		k, v := splitFormat(scanner.Text())
 		if k == "" || v == "" {
 			continue
 		}
@@ -112,7 +120,7 @@ func loadConfig() {
 	}
 }
 
-func SplitFormat(s string) (string, string) {
+func splitFormat(s string) (string, string) {
 	cols := splitRegexp.Split(s, 2)
 	if len(cols) != 2 {
 		return "", ""
