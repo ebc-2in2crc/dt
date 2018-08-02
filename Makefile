@@ -6,6 +6,7 @@ GOTEST := $(GOCMD) test
 GOGET := $(GOCMD) get
 NAME := dt
 CURRENT := $(shell pwd)
+CMDDIR := ./cmd/dt
 BUILDDIR := ./build
 BINDIR := $(BUILDDIR)/bin
 PKGDIR := $(BUILDDIR)/pkg
@@ -30,13 +31,13 @@ deps:
 .PHONY: build
 ## Build binaries
 build: deps
-	$(GOBUILD) -ldflags "$(LDFLAGS)" -o $(BINDIR)/$(NAME)
+	$(GOBUILD) -ldflags "$(LDFLAGS)" -o $(BINDIR)/$(NAME) $(CMDDIR)
 
 .PHONY: cross-build
 ## Cross build binaries
 cross-build:
 	rm -rf $(PKGDIR)
-	gox -os=$(GOXOS) -arch=$(GOXARCH) -output=$(GOXOUTPUT)
+	gox -os=$(GOXOS) -arch=$(GOXARCH) -output=$(GOXOUTPUT) $(CMDDIR)
 
 .PHONY: package
 ## Make package
@@ -55,7 +56,7 @@ release: package
 .PHONY: install
 ## compile and install
 install:
-	$(GOINSTALL) -ldflags "$(LDFLAGS)"
+	$(GOINSTALL) -ldflags "$(LDFLAGS)" $(CMDDIR)
 
 .PHONY: test
 ## Run tests
