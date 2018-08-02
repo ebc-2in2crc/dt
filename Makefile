@@ -1,15 +1,15 @@
-GOCMD=go
-GOBUILD=$(GOCMD) build
-GOINSTALL=$(GOCMD) install
-GOCLEAN=$(GOCMD) clean
-GOTEST=$(GOCMD) test
-GOGET=$(GOCMD) get
+GOCMD := go
+GOBUILD := $(GOCMD) build
+GOINSTALL := $(GOCMD) install
+GOCLEAN := $(GOCMD) clean
+GOTEST := $(GOCMD) test
+GOGET := $(GOCMD) get
 NAME := dt
 CURRENT := $(shell pwd)
-BUILDDIR=./build
-BINDIR=$(BUILDDIR)/bin
-PKGDIR=$(BUILDDIR)/pkg
-DISTDIR=$(BUILDDIR)/dist
+BUILDDIR := ./build
+BINDIR := $(BUILDDIR)/bin
+PKGDIR := $(BUILDDIR)/pkg
+DISTDIR := $(BUILDDIR)/dist
 
 VERSION := $(shell git describe --tags --abbrev=0)
 LDFLAGS := -X 'main.version=$(VERSION)'
