@@ -224,7 +224,10 @@ $ dt --help
 ### 開発者向け
 
 ```
-$ go get -u github.com/ebc-2in2crc/dt/...
+$ go get github.com/ebc-2in2crc/dt
+$ cd $GOPATH/github.com/ebc-2in2crc/dt
+$ make deps
+$ make install
 ```
 
 ### 一般ユーザー向け
