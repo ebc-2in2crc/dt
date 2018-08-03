@@ -227,7 +227,7 @@ $ dt --help
 
 ```
 $ go get github.com/ebc-2in2crc/dt
-$ cd $GOPATH/github.com/ebc-2in2crc/dt
+$ cd $GOPATH/src/github.com/ebc-2in2crc/dt
 $ make deps
 $ make install
 ```
