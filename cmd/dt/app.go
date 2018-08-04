@@ -18,6 +18,16 @@ const (
 	unixMilliSeconds = "unixm"
 )
 
+// AdjustDay 対応する月に同じ日が存在しないときの調整
+type AdjustDay int
+
+const (
+	// AdjustToEndOfMonth 対応する月に同じ日が存在しないときは代わりにその月の末日が使われます
+	AdjustToEndOfMonth AdjustDay = iota
+	// Normalize 対応する月に同じ日が存在しないときは time.Time.	Date と同じ方法で正規化します
+	Normalize
+)
+
 var version = "0.10.0"
 var splitRegexp = regexp.MustCompile(`\s*=\s*`)
 
@@ -40,9 +50,25 @@ func (dt *Dt) AddYear(year int) *Dt {
 }
 
 // AddMonth 月を加算. 負値のときは減算.
-func (dt *Dt) AddMonth(month int) *Dt {
-	return &Dt{
+func (dt *Dt) AddMonth(month int, adjust AdjustDay) *Dt {
+	result := &Dt{
 		time:   dt.time.AddDate(0, month, 0),
+		format: dt.format,
+	}
+	if adjust == Normalize {
+		return result
+	}
+
+	t := dt.time
+	firstDayOfMonth := time.Date(t.Year(), t.Month(), 1, t.Hour(),
+		t.Minute(), t.Second(), t.Nanosecond(), t.Location()).AddDate(0, month, 0)
+	if result.time.Month() == firstDayOfMonth.Month() {
+		return result
+	}
+
+	lastDayOfPreviousMonth := firstDayOfMonth.AddDate(0, 1, -1)
+	return &Dt{
+		time:   lastDayOfPreviousMonth,
 		format: dt.format,
 	}
 }

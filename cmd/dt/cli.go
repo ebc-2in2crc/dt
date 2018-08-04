@@ -128,6 +128,10 @@ func description() string {
 func flags() []cli.Flag {
 	return []cli.Flag{
 		cli.BoolFlag{
+			Name:  "adjust-day, a",
+			Usage: "結果日付が無効なときその月末日に調整します",
+		},
+		cli.BoolFlag{
 			Name:  "debug, d",
 			Usage: "デバッグログを出力します",
 		},
@@ -219,7 +223,7 @@ func action() func(c *cli.Context) error {
 
 		var dt = &Dt{time: now(), format: defaultFormat}
 		for i, arg := range c.Args() {
-			newDt, err := processArg(i, arg, dt)
+			newDt, err := processArg(i, arg, dt, c)
 			if err != nil {
 				return err
 			}
@@ -231,13 +235,13 @@ func action() func(c *cli.Context) error {
 	}
 }
 
-func processArg(i int, arg string, dt *Dt) (*Dt, error) {
+func processArg(i int, arg string, dt *Dt, c *cli.Context) (*Dt, error) {
 	log.Printf("arg: %s, time: %v", arg, dt.time)
 
 	if i == 0 {
 		return processFirst(arg)
 	}
-	return processRest(arg, dt)
+	return processRest(arg, dt, c)
 }
 
 func processFirst(arg string) (*Dt, error) {
@@ -302,7 +306,7 @@ func processFirst(arg string) (*Dt, error) {
 	return nil, errors.New(text)
 }
 
-func processRest(arg string, dt *Dt) (*Dt, error) {
+func processRest(arg string, dt *Dt, c *cli.Context) (*Dt, error) {
 	match, _ := regexp.MatchString(`^[-+]?\d+[YMDhms]$`, arg)
 	if match == false {
 		text := fmt.Sprintf("'%s' is invalid format.", arg)
@@ -310,6 +314,7 @@ func processRest(arg string, dt *Dt) (*Dt, error) {
 	}
 
 	current := dt
+	month := getMonthFunc(c.Bool("a"))
 	functions := []func(*Dt, string) (*Dt, error){year, month, day, hour, minute, second}
 	for i, f := range functions {
 		newDt, err := f(current, arg)
@@ -321,6 +326,17 @@ func processRest(arg string, dt *Dt) (*Dt, error) {
 	}
 
 	return current, nil
+}
+
+func getMonthFunc(adjust bool) func(*Dt, string) (*Dt, error) {
+	adjustDay := Normalize
+	if adjust {
+		adjustDay = AdjustToEndOfMonth
+	}
+
+	return func(dt *Dt, s string) (*Dt, error) {
+		return month(dt, s, adjustDay)
+	}
 }
 
 // NowInterface テスト用のインタフェース
@@ -357,9 +373,9 @@ func addIfMatch(s, pattern string, f func(i int) *Dt) (*Dt, error) {
 	return f(duration), nil
 }
 
-func month(dt *Dt, s string) (*Dt, error) {
+func month(dt *Dt, s string, adjustDay AdjustDay) (*Dt, error) {
 	return addIfMatch(s, "^[-+]?\\d+M$", func(i int) *Dt {
-		return dt.AddMonth(i)
+		return dt.AddMonth(i, adjustDay)
 	})
 }
 
