@@ -248,11 +248,11 @@ $ brew install dt
 ## Contribution
 
 1. Fork this repository
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Rebase your local changes against the master branch
-5. Run test suite with the go test ./... command and confirm that it passes
-6. Run gofmt -s
+2. Create your issue branch (`git checkout -b issue/:id`)
+3. Change codes
+4. Run test suite with the `make test` command and confirm that it passes
+5. Run `make fmt`
+6. Commit your changes (`git commit -am 'Add some feature'`)
 7. Create new Pull Request
 
 ## Licence
