@@ -80,6 +80,9 @@ func TestRun_add(t *testing.T) {
 
 		{args: []string{AppName, "2018/05/12 17:30:00", "+1M"}, expect: "2018/06/12 17:30:00"},
 		{args: []string{AppName, "2018/05/12 17:30:00", "-1M"}, expect: "2018/04/12 17:30:00"},
+		{args: []string{AppName, "2018/03/31 00:00:00", "+1M"}, expect: "2018/05/01 00:00:00"},
+		{args: []string{AppName, "-a", "2018/03/31 00:00:00", "+1M"}, expect: "2018/04/30 00:00:00"},
+		{args: []string{AppName, "--adjust-day", "2018/03/31 00:00:00", "+1M"}, expect: "2018/04/30 00:00:00"},
 
 		{args: []string{AppName, "2018/05/12 17:30:00", "+1D"}, expect: "2018/05/13 17:30:00"},
 		{args: []string{AppName, "2018/05/12 17:30:00", "-1D"}, expect: "2018/05/11 17:30:00"},

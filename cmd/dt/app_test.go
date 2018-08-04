@@ -27,14 +27,30 @@ func TestDt_AddYear(t *testing.T) {
 }
 
 func TestDt_AddMonth(t *testing.T) {
-	now := time.Now()
-	dt := &Dt{time: now}
-
-	actual := dt.AddMonth(1).get()
-	expect := now.AddDate(0, 1, 0)
-	if actual != expect {
-		t.Errorf("Dt.AddMonth() = %v, want %v", actual, expect)
+	params := []struct {
+		initial  time.Time
+		addition int
+		adjust   AdjustDay
+		expect   time.Time
+	}{
+		{initial: createTime(2018, 1, 1), addition: 1, adjust: Normalize, expect: createTime(2018, 2, 1)},
+		{initial: createTime(2018, 1, 31), addition: 3, adjust: Normalize, expect: createTime(2018, 5, 1)},
+		{initial: createTime(2018, 1, 31), addition: 3, adjust: AdjustToEndOfMonth, expect: createTime(2018, 4, 30)},
 	}
+
+	for _, p := range params {
+		dt := &Dt{time: p.initial}
+
+		actual := dt.AddMonth(p.addition, p.adjust).get()
+		expect := p.expect
+		if actual != expect {
+			t.Errorf("Dt.AddMonth() = %v, want %v", actual, expect)
+		}
+	}
+}
+
+func createTime(year int, month time.Month, day int) time.Time {
+	return time.Date(year, month, day, 0, 0, 0, 0, time.Local)
 }
 
 func TestDt_AddDay(t *testing.T) {
