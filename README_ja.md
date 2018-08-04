@@ -246,11 +246,11 @@ $ brew install dt
 ## コントリビューション
 
 1. このリポジトリをフォークします
-2. feature ブランチを作成します (git checkout -b my-new-feature)
-3. 変更をコミットします (git commit -am 'Add some feature')
-4. 変更を master ブランチにリベースします
-5. go test コマンドでテストを実行し, パスすることを確認します
-6. `gofmt -s` コマンドでコードをフォーマットします
+2. issue ブランチを作成します (`git checkout -b issue/:id`)
+3. コードを変更します
+4. `make test` でテストを実行し, パスすることを確認します
+5. `make fmt` でコードをフォーマットします
+6. 変更をコミットします (`git commit -am 'Add some feature'`)
 7. 新しいプルリクエストを作成します
 
 ## ライセンス
