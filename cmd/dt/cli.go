@@ -223,25 +223,25 @@ func action() func(c *cli.Context) error {
 
 		var dt = &Dt{time: now(), format: defaultFormat}
 		for i, arg := range c.Args() {
-			newDt, err := processArg(i, arg, dt, c)
+			newDt, err := processArg(i, arg, dt)
 			if err != nil {
 				return err
 			}
 			dt = newDt
 		}
 
-		output(dt, c)
+		output(dt)
 		return nil
 	}
 }
 
-func processArg(i int, arg string, dt *Dt, c *cli.Context) (*Dt, error) {
+func processArg(i int, arg string, dt *Dt) (*Dt, error) {
 	log.Printf("arg: %s, time: %v", arg, dt.time)
 
 	if i == 0 {
 		return processFirst(arg)
 	}
-	return processRest(arg, dt, c)
+	return processRest(arg, dt)
 }
 
 func processFirst(arg string) (*Dt, error) {
@@ -306,7 +306,7 @@ func processFirst(arg string) (*Dt, error) {
 	return nil, errors.New(text)
 }
 
-func processRest(arg string, dt *Dt, c *cli.Context) (*Dt, error) {
+func processRest(arg string, dt *Dt) (*Dt, error) {
 	match, _ := regexp.MatchString(`^[-+]?\d+[YMDhms]$`, arg)
 	if match == false {
 		text := fmt.Sprintf("'%s' is invalid format.", arg)
@@ -314,7 +314,7 @@ func processRest(arg string, dt *Dt, c *cli.Context) (*Dt, error) {
 	}
 
 	current := dt
-	month := getMonthFunc(c.Bool("a"))
+	month := getMonthFunc(cliContext.Bool("a"))
 	functions := []func(*Dt, string) (*Dt, error){year, month, day, hour, minute, second}
 	for i, f := range functions {
 		newDt, err := f(current, arg)
@@ -403,17 +403,17 @@ func second(dt *Dt, s string) (*Dt, error) {
 	})
 }
 
-func output(dt *Dt, c *cli.Context) {
-	switch c.String("o") {
+func output(dt *Dt) {
+	switch cliContext.String("o") {
 	case "":
 		fmt.Fprintf(clo.outStream, "%v\n", dt)
 	case "def":
 		fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: defaultFormat})
 	default:
-		if v, ok := formats[c.String("o")]; ok {
+		if v, ok := formats[cliContext.String("o")]; ok {
 			fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: v})
 		} else {
-			fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: c.String("o")})
+			fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: cliContext.String("o")})
 		}
 	}
 }
