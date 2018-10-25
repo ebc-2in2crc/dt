@@ -249,6 +249,10 @@ func processFirst(arg string) (*Dt, error) {
 		func(s string) *Dt {
 			// 入力フォーマット指定
 			f := cliContext.String("i")
+			if v, ok := formats[f]; ok {
+				f = v
+			}
+
 			switch f {
 			case def:
 				return nil
