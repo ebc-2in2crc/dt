@@ -236,7 +236,7 @@ func action() func(c *cli.Context) error {
 }
 
 func processArg(i int, arg string, dt *Dt) (*Dt, error) {
-	log.Printf("arg: %s, time: %v", arg, dt.time)
+	log.Printf("arg[%d]: %s, time: %v", i, arg, dt.time)
 
 	if i == 0 {
 		return processFirst(arg)
