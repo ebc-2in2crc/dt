@@ -404,16 +404,17 @@ func second(dt *Dt, s string) (*Dt, error) {
 }
 
 func output(dt *Dt) {
-	switch cliContext.String("o") {
+	outputFormat := cliContext.String("o")
+	switch outputFormat {
 	case "":
 		fmt.Fprintf(clo.outStream, "%v\n", dt)
 	case "def":
 		fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: defaultFormat})
 	default:
-		if v, ok := formats[cliContext.String("o")]; ok {
+		if v, ok := formats[outputFormat]; ok {
 			fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: v})
 		} else {
-			fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: cliContext.String("o")})
+			fmt.Fprintf(clo.outStream, "%s\n", &Dt{time: dt.time, format: outputFormat})
 		}
 	}
 }
