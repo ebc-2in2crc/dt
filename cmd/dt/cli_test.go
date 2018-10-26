@@ -149,6 +149,38 @@ func TestRun_add(t *testing.T) {
 	}
 }
 
+func TestRun_unixTime(t *testing.T) {
+	formats["us"] = unixSeconds
+	formats["um"] = unixMilliSeconds
+
+	nowInterface = &MyTime{}
+	params := []struct {
+		args   []string
+		expect string
+	}{
+		// 入力フォーマット
+		{args: []string{AppName, "-i", "ux", "-o", "def", "1526113800"}, expect: "2018/05/12 17:30:00"},
+		{args: []string{AppName, "-i", "um", "-o", "def", "1526113800000"}, expect: "2018/05/12 17:30:00"},
+	}
+
+	for _, p := range params {
+		outStream, errStream := new(bytes.Buffer), new(bytes.Buffer)
+		clo := &CLO{outStream: outStream, errStream: errStream}
+
+		args := p.args
+		status := clo.Run(args)
+		if status != ExitCodeOK {
+			t.Errorf("Run(%s): ExitStatus = %d; want %d", args, status, ExitCodeOK)
+		}
+
+		actual := outStream.String()
+		expect := p.expect
+		if strings.Contains(actual, expect) == false {
+			t.Errorf("Run(%s): Output = %v; want %v", args, actual, expect)
+		}
+	}
+}
+
 func TestRun_error(t *testing.T) {
 	nowInterface = &MyTime{}
 	params := []struct {
