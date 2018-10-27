@@ -28,7 +28,7 @@ const (
 	Normalize
 )
 
-var version = "0.10.0"
+var version = "0.11.1"
 var splitRegexp = regexp.MustCompile(`\s*=\s*`)
 
 // Dt 日付計算とフォーマット機能をもつ
