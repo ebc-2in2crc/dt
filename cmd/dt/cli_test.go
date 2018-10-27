@@ -14,6 +14,14 @@ func (n *MyTime) Now() time.Time {
 	return time.Date(2018, 5, 12, 17, 30, 0, 0, time.Local)
 }
 
+func (n *MyTime) Local() *time.Location {
+	loc, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		panic(err)
+	}
+	return loc
+}
+
 func TestNow(t *testing.T) {
 	myTime := &MyTime{}
 	nowInterface = myTime
@@ -126,6 +134,13 @@ func TestRun_add(t *testing.T) {
 		{args: []string{AppName, "--output-format", "2006-01-02 15:04:05", "1526113800"}, expect: "2018-05-12 17:30:00"},
 		{args: []string{AppName, "--output-format", "ANSIC", "1526113800"}, expect: "Sat May 12 17:30:00 2018"},
 		{args: []string{AppName, "--input-format", "unixm", "--output-format", "unixm", "1526113800000"}, expect: "1526113800000"},
+
+		// タイムゾーン
+		{args: []string{AppName, "-i", "2006/01/02 15:04:05 MST", "-o", "15:04:05 MST", "2018/05/12 17:30:00 JST"}, expect: "17:30:00 JST"},
+		{args: []string{AppName, "-i", "2006/01/02 15:04:05 MST", "-o", "15:04:05 MST", "2018/05/12 17:30:00 UTC"}, expect: "17:30:00 UTC"},
+		{args: []string{AppName, "-i", "2006/01/02 15:04:05 MST", "-o", "15:04:05 MST", "2018/05/12 17:30:00"}, expect: "17:30:00 JST"},
+		{args: []string{AppName, "-i", "2006/01/02 15:04:05", "-o", "15:04:05 MST", "2018/05/12 17:30:00"}, expect: "17:30:00 JST"},
+		{args: []string{AppName, "-i", "unix", "-o", "15:04:05 MST", "1526113800"}, expect: "17:30:00 JST"},
 
 		// 引数がないときはシステム日付を出力
 		{args: []string{AppName}, expect: "2018/05/12 17:30:00"},

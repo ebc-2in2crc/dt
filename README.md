@@ -105,6 +105,28 @@ $ dt -a "2018/01/31" +1M
 2018/02/28
 ```
 
+### Timezone
+
+Use local timezone by default.
+
+```
+$ date +"%Z"
+JST
+
+$ dt -i unix -o "2006/01/02 15:04:05 MST" 0
+1970/01/01 09:00:00 JST
+```
+
+You can also specify zone offset or abbreviation.
+
+```
+$ dt -i "2006/01/02 15:04:05 MST" -o "2006/01/02 15:04:05 MST" "1970/01/01 09:00:00 EST"
+1970/01/01 09:00:00 EST
+
+$ dt -i "2006/01/02 15:04:05 -0700" -o "2006/01/02 15:04:05 -0700" "1970/01/01 09:00:00 -0500"
+1970/01/01 09:00:00 -0500
+```
+
 ### input format
 
 #### default format

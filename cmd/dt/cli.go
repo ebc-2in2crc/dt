@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"strings"
 
 	"log"
 	"regexp"
@@ -245,6 +246,14 @@ func processArg(i int, arg string, dt *Dt) (*Dt, error) {
 }
 
 func processFirst(arg string) (*Dt, error) {
+	parse := func(f, v string) (time.Time, error) {
+		if strings.Contains(f, "MST") {
+			return time.Parse(f, arg)
+		} else {
+			return time.ParseInLocation(f, arg, localLocation())
+		}
+	}
+
 	functions := []func(s string) *Dt{
 		func(s string) *Dt {
 			// 入力フォーマット指定
@@ -264,7 +273,7 @@ func processFirst(arg string) (*Dt, error) {
 				milliSec, _ := strconv.Atoi(arg)
 				return &Dt{time: time.Unix(0, int64(milliSec)*int64(time.Millisecond)), format: unixMilliSeconds}
 			default:
-				t, err := time.Parse(f, arg)
+				t, err := parse(f, arg)
 				if err == nil {
 					return &Dt{time: t, format: f}
 				}
@@ -290,7 +299,7 @@ func processFirst(arg string) (*Dt, error) {
 		func(s string) *Dt {
 			// 所定のフォーマットとして解釈
 			for _, f := range formats {
-				t, err := time.Parse(f, arg)
+				t, err := parse(f, arg)
 				if err == nil {
 					return &Dt{time: t, format: f}
 				}
@@ -346,6 +355,7 @@ func getMonthFunc(adjust bool) func(*Dt, string) (*Dt, error) {
 // NowInterface テスト用のインタフェース
 type NowInterface interface {
 	Now() time.Time
+	Local() *time.Location
 }
 
 var nowInterface NowInterface
@@ -356,6 +366,13 @@ func now() time.Time {
 		return time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), 0, time.Local)
 	}
 	return nowInterface.Now()
+}
+
+func localLocation() *time.Location {
+	if nowInterface == nil {
+		return time.Local
+	}
+	return nowInterface.Local()
 }
 
 func year(dt *Dt, s string) (*Dt, error) {
