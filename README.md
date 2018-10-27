@@ -107,7 +107,7 @@ $ dt -a "2018/01/31" +1M
 
 ### Timezone
 
-Use local timezone by default.
+Default timezone is local timezone.
 
 ```
 $ date +"%Z"
