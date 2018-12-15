@@ -119,7 +119,13 @@ func (dt *Dt) String() string {
 }
 
 func loadConfig() {
-	path, err := homedir.Expand("~/.config/dt/.dt")
+	configPath := os.Getenv("XDG_CONFIG_HOME")
+	if configPath == "" {
+		configPath = "~/.config"
+	}
+	log.Printf("config path: %s\n", configPath)
+
+	path, err := homedir.Expand(configPath + "/dt/.dt")
 	if err != nil {
 		return
 	}
