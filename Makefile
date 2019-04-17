@@ -22,7 +22,7 @@ GOXOUTPUT := "$(PKGDIR)/$(NAME)_{{.OS}}_{{.Arch}}/{{.Dir}}"
 ## Install dependencies
 deps:
 	$(GOGET) golang.org/x/tools/cmd/goimports
-	$(GOGET) github.com/golang/lint/golint
+	$(GOGET) golang.org/x/lint/golint
 	$(GOGET) github.com/codegangsta/cli
 	$(GOGET) github.com/mitchellh/go-homedir
 	$(GOGET) github.com/Songmu/make2help/cmd/make2help
