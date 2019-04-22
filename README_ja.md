@@ -1,3 +1,5 @@
+[English](README.md) | [日本語](README_ja.md)
+
 # dt
 
 dt は日付の計算や書式を変換するプログラムです.
