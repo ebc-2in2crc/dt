@@ -249,9 +249,8 @@ func processFirst(arg string) (*Dt, error) {
 	parse := func(f, v string) (time.Time, error) {
 		if strings.Contains(f, "MST") {
 			return time.Parse(f, arg)
-		} else {
-			return time.ParseInLocation(f, arg, localLocation())
 		}
+		return time.ParseInLocation(f, arg, localLocation())
 	}
 
 	functions := []func(s string) *Dt{
