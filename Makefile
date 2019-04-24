@@ -17,15 +17,19 @@ GOXOS := "darwin windows linux"
 GOXARCH := "386 amd64"
 GOXOUTPUT := "$(PKGDIR)/$(NAME)_{{.OS}}_{{.Arch}}/{{.Dir}}"
 
+export GO111MODULE=on
+
 .PHONY: deps
 ## Install dependencies
 deps:
-	$(GOGET) golang.org/x/tools/cmd/goimports
-	$(GOGET) golang.org/x/lint/golint
-	$(GOGET) github.com/codegangsta/cli
-	$(GOGET) github.com/mitchellh/go-homedir
-	$(GOGET) github.com/Songmu/make2help/cmd/make2help
-	$(GOGET) github.com/tcnksm/ghr
+	GO111MODULE=off $(GOGET) \
+	golang.org/x/tools/cmd/goimports \
+	golang.org/x/lint/golint \
+	github.com/codegangsta/cli \
+	github.com/mitchellh/go-homedir \
+	github.com/Songmu/make2help/cmd/make2help \
+	github.com/mitchellh/gox \
+	github.com/tcnksm/ghr
 
 .PHONY: build
 ## Build binaries
