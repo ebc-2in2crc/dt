@@ -25,7 +25,7 @@ deps:
 	GO111MODULE=off $(GOGET) \
 	golang.org/x/tools/cmd/goimports \
 	golang.org/x/lint/golint \
-	github.com/codegangsta/cli \
+	github.com/urfave/cli \
 	github.com/mitchellh/go-homedir \
 	github.com/Songmu/make2help/cmd/make2help \
 	github.com/mitchellh/gox \
